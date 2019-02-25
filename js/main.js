@@ -113,7 +113,7 @@ class TicTacToe {
     this.winnerToken.setAttribute('class', `fas fa-${this.winner.token}`)
   }
   showDrawScreen(){
-    this.drawScreen.setAttribute('class', `'show'`);
+    this.drawScreen.setAttribute('class', 'show');
   }
   setUpBoard(){
     this.gameboard.innerHTML = '';
@@ -158,8 +158,12 @@ document.addEventListener('DOMContentLoaded', function(event){
   });
 });
 
-document.addEventListener('win', game.showWinScreen());
-document.addEventListener('draw', game.showDrawScreen());
+document.addEventListener('win', function(event){
+  game.showWinScreen()
+});
+document.addEventListener('draw', function(event){
+  game.showDrawScreen()
+});
 
 
 function handleMove(event){
