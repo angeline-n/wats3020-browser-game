@@ -167,7 +167,7 @@ document.addEventListener('draw', function(event){
 
 let replayButton = document.querySelector('#replay-button');
 replayButton.addEventListener('click', function(event){
-  game.winScreen.setAttribute('class', '');
+  game.winScreen.setAttribute('class', ''); // hide which ever screen prompted the replay option
   game.drawScreen.setAttribute('class', '');
   game = new TicTacToe();
   game.start();
