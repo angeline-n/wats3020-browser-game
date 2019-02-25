@@ -165,6 +165,14 @@ document.addEventListener('draw', function(event){
   game.showDrawScreen()
 });
 
+let replayButton = document.querySelector('#replay-button');
+replayButton.addEventListener('click', function(event){
+  game.winScreen.setAttribute('class', '');
+  game.drawScreen.setAttribute('class', '');
+  game = new TicTacToe();
+  game.start();
+});
+
 
 function handleMove(event){
   game.recordMove(event);
