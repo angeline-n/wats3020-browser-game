@@ -2,6 +2,7 @@
 /* Build a tic tac toe game for two players. */
 
 let game;
+let validMove = null;
 
 class Player{
   constructor(token){
@@ -12,8 +13,8 @@ class Player{
 // Tic Tac Toe Game Class
 class TicTacToe {
   constructor(){
-    this.player1 = new Player(cat);
-    this.player2 = new Player(dog);
+    this.player1 = new Player('cat');
+    this.player2 = new Player('dog');
 
     this.currentPlayer = null;
     this.gameStatus = null;
@@ -80,8 +81,13 @@ class TicTacToe {
     // This method handles recording a move in the `this.gameState` property.
     let tile_x = event.target.dataset.x;
     let tile_y = event.target.dataset.y; 
-    this.gameState[tile_x][tile_y] = this.currentPlayerToken;
-    event.target.setAttribute('class', `tile played fas fa-${this.currentPlayer.token}`);
+    if (!this.gameState[tile_x][tile_y]){
+      this.gameState[tile_x][tile_y] = this.currentPlayer.token;
+      event.target.setAttribute('class', `tile played fas fa-${this.currentPlayer.token}`);
+      validMove = true;
+    } else {
+      validMove = false;
+    }
   }
   switchPlayer(){
     // This method handles switching between players after each move.
@@ -107,18 +113,18 @@ class TicTacToe {
     this.winnerToken.setAttribute('class', `fas fa-${this.winner.token}`)
   }
   showDrawScreen(){
-    this.drawScreen.setAttribute('class', 'show');
+    this.drawScreen.setAttribute('class', `'show'`);
   }
   setUpBoard(){
     this.gameboard.innerHTML = '';
-    for (i === 0; i < 3; i++){
+    for (let i = 0; i < 3; i++){
       let newRow = document.createElement('div');
       newRow.setAttribute('class', 'row');
-      for (j===0; j < 3; j++){
+      for (let j = 0; j < 3; j++){
         let newCol = document.createElement('div');
         newCol.setAttribute('class', 'col-xs-3');
         let newTile = document.createElement('span');
-        newTile.setAttribute('class', `tile fas fa-question-sign`);
+        newTile.setAttribute('class', 'tile fas fa-question');
         newTile.setAttribute('data-x', i);
         newTile.setAttribute('data-y', j);
         newCol.appendChild(newTile);
@@ -142,8 +148,6 @@ class TicTacToe {
   }
 } // End of the Tic Tac Toe Class definition.
 
-// Outside of the Class definitions, we need a few items to control the game
-// so our players can successfully play.
 
 
 document.addEventListener('DOMContentLoaded', function(event){
@@ -158,14 +162,13 @@ document.addEventListener('win', game.showWinScreen());
 document.addEventListener('draw', game.showDrawScreen());
 
 
-// External function for event listeners provided for you.
 function handleMove(event){
-  // Record the move for the current player.
   game.recordMove(event);
-
-  // Check to see if the last move was a winning move.
-  game.checkForWinner();
-
-  // Rotate players.
-  game.switchPlayer();
+  if (validMove === false){ // if player clicked a played tile, alert and let them try again
+    alert('Error: That tile has already been played. Please select an open tile.')
+    game.recordMove(event);
+  } else {
+    game.checkForWinner();
+    game.switchPlayer();
+  }
 }
